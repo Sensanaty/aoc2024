@@ -318,3 +318,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/git,macos,windows,jetbrains+all,ruby,rust,go,node
+
+# Ignore the inputs given by AoC
+input.txt
