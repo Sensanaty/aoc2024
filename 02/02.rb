@@ -2,48 +2,26 @@
 
 require_relative '../file_helper'
 
-INPUT = FileHelper.read_input
+INPUT = FileHelper.read_input.lines.map { |line| line.split.map(&:to_i) }
 
-def generate_reports
-  INPUT.each_line.map { |line| line.split("\n") }.flatten
+def part_one(numbers)
+  all_ascending = numbers.each_cons(2).all? { |a, b| a < b && (a - b).abs <= 3 }
+  all_descending = numbers.each_cons(2).all? { |a, b| a > b && (a - b).abs <= 3 }
+
+  all_ascending || all_descending
 end
 
-def part_one
-  reports = generate_reports
-
-  safe_count = 0
-
-  reports.each do |report|
-    previous_direction = nil
-    is_safe = true
-
-    report.split("\s").map(&:to_i).each_cons(2) do |a, b|
-      difference = a - b
-
-      new_direction =
-        if difference.positive?
-          :increase
-        elsif difference.negative?
-          :decrease
-        else
-          :stable
-        end
-
-      if difference.abs > 3 ||
-         new_direction == :stable ||
-         (previous_direction && previous_direction != new_direction)
-        is_safe = false
-        break
-      end
-
-      previous_direction = new_direction
-    end
-
-    safe_count += 1 if is_safe
-  end
-
-  safe_count
-end
-
-PART_1_SOLUTION = part_one
+PART_1_SOLUTION = INPUT.map { |list| part_one(list) }.count(true)
 puts "Part 1: #{PART_1_SOLUTION}"
+
+def part_two(numbers)
+  numbers.each_index.any? do |index|
+    new_numbers = numbers.clone
+    new_numbers.delete_at(index)
+
+    part_one(new_numbers)
+  end
+end
+
+PART_2_SOLUTION = INPUT.map { |list| part_two(list) }.count(true)
+puts "Part 2: #{PART_2_SOLUTION}"
