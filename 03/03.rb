@@ -20,3 +20,35 @@ def part_one
 end
 
 p part_one
+
+DO_REGEX = /do\(\)/i.freeze
+DONT_REGEX = /don't\(\)/i.freeze
+REGEX_PART_TWO = Regexp.union(DO_REGEX, DONT_REGEX, /mul\(\d{1,3},\d{1,3}\)/i).freeze
+
+def part_two
+  results = INPUT.scan(REGEX_PART_TWO)
+
+  sum = 0
+  state = :do
+
+  results.each do |result|
+    case result
+    when 'do()'
+      state = :do
+    when "don't()"
+      state = :dont
+    else
+      if state == :do
+        sum += result
+               .gsub(/mul\(|\)/, '')
+               .split(',')
+               .map(&:to_i)
+               .reduce(1, :*)
+      end
+    end
+  end
+
+  sum
+end
+
+p part_two
