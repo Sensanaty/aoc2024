@@ -1,0 +1,11 @@
+[package]
+name = "day01"
+version = "0.1.0"
+edition = "2021"
+resolver = "2"
+
+[[bin]]
+name = "01"
+path = "01.rs"
+
+[dependencies]
