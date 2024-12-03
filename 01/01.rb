@@ -4,7 +4,7 @@ require_relative '../file_helper'
 
 INPUT = FileHelper.read_input
 
-def part_1
+def make_left_and_right
   left = []
   right = []
 
@@ -14,6 +14,12 @@ def part_1
     right << r
   end
 
+  [left, right]
+end
+
+def part_one
+  left, right = make_left_and_right
+
   left.sort!
   right.sort!
 
@@ -22,4 +28,20 @@ def part_1
   end
 end
 
-puts "Part 1: #{part_1}"
+# 1970720
+PART_1_SOLUTION = part_one
+puts "Part 1: #{PART_1_SOLUTION}"
+
+def part_two
+  left, right = make_left_and_right
+
+  right_tally = right.tally
+
+  left.sum do |num|
+    num * right_tally.fetch(num, 0)
+  end
+end
+
+# 17191599
+PART_2_SOLUTION = part_two
+puts "Part 2: #{PART_2_SOLUTION}"
