@@ -2,11 +2,10 @@
 
 require_relative '../file_helper'
 
-INPUT = FileHelper.read_input
+INPUT = FileHelper.read_input.split("\n").map(&:chars).freeze
 
 def part_one
   word = 'XMAS'
-  grid = INPUT.split("\n").map(&:chars)
 
   directions = {
     right: [0, 1],
@@ -19,16 +18,16 @@ def part_one
     down_left: [-1, -1]
   }
 
-  grid.each_index.sum do |row|
-    grid[row].each_index.sum do |col|
+  INPUT.each_index.sum do |row|
+    INPUT[row].each_index.sum do |col|
       directions.values.count do |row_dir, col_dir|
         word.each_char.with_index.all? do |char, char_index|
           row_offset = row + (row_dir * char_index)
           col_offset = col + (col_dir * char_index)
 
-          row_offset.between?(0, grid.length - 1) &&
-            col_offset.between?(0, grid[0].length - 1) &&
-            grid[row_offset][col_offset] == char
+          row_offset.between?(0, INPUT.length - 1) &&
+            col_offset.between?(0, INPUT[0].length - 1) &&
+            INPUT[row_offset][col_offset] == char
         end
       end
     end
